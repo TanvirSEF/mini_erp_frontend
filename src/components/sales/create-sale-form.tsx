@@ -9,6 +9,13 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { formatCurrency } from '@/lib/format'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 type LineItem = { product: Product; quantity: number }
 
@@ -68,24 +75,30 @@ export function CreateSaleForm() {
     )
   }
 
+  const selectedProduct = products.find((p) => p._id === selectedId)
+
   return (
     <div className="space-y-4 rounded-xl border p-4">
-      <div className="flex flex-wrap items-end gap-2">
-        <div className="grid min-w-[200px] flex-1 gap-1.5">
+      <div className="flex items-end gap-2.5 max-w-md">
+        <div className="grid flex-1 gap-1.5">
           <Label htmlFor="product">Product</Label>
-          <select
-            id="product"
-            value={selectedId}
-            onChange={(event) => setSelectedId(event.target.value)}
-            className="h-8 rounded-lg border border-input bg-transparent pr-7 pl-2 text-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+          <Select
+            value={selectedId || undefined}
+            onValueChange={(val) => setSelectedId(val || '')}
           >
-            <option value="">Select a product…</option>
-            {available.map((product) => (
-              <option key={product._id} value={product._id}>
-                {product.name} ({product.stockQuantity} in stock)
-              </option>
-            ))}
-          </select>
+            <SelectTrigger id="product" className="w-full">
+              <SelectValue placeholder="Select a product…">
+                {selectedProduct ? `${selectedProduct.name} (${selectedProduct.stockQuantity} in stock)` : undefined}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {available.map((product) => (
+                <SelectItem key={product._id} value={product._id}>
+                  {product.name} ({product.stockQuantity} in stock)
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <Button type="button" onClick={addItem} disabled={!selectedId}>
           <Plus className="size-4" />
