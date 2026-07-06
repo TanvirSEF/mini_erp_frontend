@@ -45,8 +45,8 @@ export function AppLayout() {
   return (
     <div className="light flex min-h-svh bg-slate-50 text-slate-900">
       {/* ── Left Sidebar (Desktop) ── */}
-      <aside className="relative hidden w-64 shrink-0 overflow-hidden bg-gradient-to-br from-[#1e3a5f] to-[#2a5f8f] text-white md:flex md:flex-col md:justify-between shadow-[4px_0_24px_rgba(0,0,0,0.05)] border-r border-slate-200/10">
-        {/* Subtle pattern overlay matching login page */}
+      <aside className="relative hidden w-60 shrink-0 overflow-hidden bg-gradient-to-br from-[#1e3a5f] to-[#2a5f8f] text-white md:flex md:flex-col md:justify-between shadow-[4px_0_24px_rgba(0,0,0,0.03)] border-r border-slate-200/10">
+        {/* Subtle pattern overlay */}
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.03]"
           style={{
@@ -64,7 +64,7 @@ export function AppLayout() {
           {/* Top Branding Section */}
           <div className="relative z-10 p-6">
             <div className="flex items-center gap-3">
-              <div className="flex size-9 items-center justify-center rounded-xl bg-white/15 backdrop-blur-sm shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
+              <div className="flex size-9 items-center justify-center rounded-xl bg-white/15 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
                 <PackageCheck className="size-5 text-white" />
               </div>
               <div>
@@ -78,7 +78,7 @@ export function AppLayout() {
             </div>
           </div>
 
-          {/* Main Navigation Links */}
+          {/* Main Navigation Links (Clean & Human-designed, no AI boilerplate boxes) */}
           <div className="relative z-10 px-4 py-3">
             <ul className="space-y-1">
               {items.map((item) => {
@@ -87,13 +87,13 @@ export function AppLayout() {
                   <li key={item.to}>
                     <NavLink
                       to={item.to}
-                      className={({ isActive }) =>
-                        cn(
-                          'flex items-center gap-3 rounded-xl px-4 py-3 text-[13px] font-medium text-white/70 transition-all hover:bg-white/10 hover:text-white',
-                          isActive &&
-                            'bg-white/15 text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] font-semibold border-l-4 border-white pl-3'
-                        )
-                      }
+                    className={({ isActive }) =>
+                      cn(
+                        'flex items-center gap-3 rounded-xl px-4 py-3 text-[13px] font-medium text-white/70 transition-all hover:bg-white/10 hover:text-white',
+                        isActive &&
+                          'bg-white/15 text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] font-semibold'
+                      )
+                    }
                     >
                       <Icon className="size-[18px] shrink-0" />
                       <span>{item.label}</span>
@@ -105,31 +105,21 @@ export function AppLayout() {
           </div>
         </div>
 
-        {/* Bottom User Profile & Functional Logout Section */}
-        <div className="relative z-10 border-t border-white/10 p-4 bg-black/[0.08] backdrop-blur-md space-y-3">
-          <div className="flex items-center gap-3 px-2">
-            <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-white/15 text-xs font-bold uppercase text-white shadow-sm ring-1 ring-white/10">
+        {/* Bottom User Info */}
+        <div className="relative z-10 border-t border-white/10 p-5 bg-black/[0.08] backdrop-blur-md">
+          <div className="flex items-center gap-3">
+            <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-white/15 text-xs font-bold uppercase text-white ring-1 ring-white/10">
               {user?.name?.charAt(0) ?? user?.email?.charAt(0) ?? 'U'}
             </div>
             <div className="overflow-hidden">
               <p className="truncate text-[13px] font-semibold leading-none text-white">
                 {user?.name ?? 'User'}
               </p>
-              <p className="mt-1 truncate text-[11px] text-white/50 leading-none">
+              <p className="mt-1.5 truncate text-[11px] text-white/50 leading-none">
                 {user?.role}
               </p>
             </div>
           </div>
-
-          {/* Explicitly Labeled Logout Button */}
-          <button
-            type="button"
-            onClick={handleLogout}
-            className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-2.5 text-[13px] font-medium text-white/70 transition-all hover:bg-red-500/20 hover:text-red-200"
-          >
-            <LogOut className="size-[18px] shrink-0 text-red-200" />
-            <span>Sign out</span>
-          </button>
         </div>
       </aside>
 
@@ -170,7 +160,8 @@ export function AppLayout() {
                         className={({ isActive }) =>
                           cn(
                             'flex items-center gap-3 rounded-xl px-4 py-3 text-[13px] font-medium text-white/70 transition-all hover:bg-white/10 hover:text-white',
-                            isActive && 'bg-white/15 text-white font-semibold border-l-4 border-white pl-3'
+                            isActive &&
+                              'bg-white/15 text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] font-semibold'
                           )
                         }
                       >
@@ -183,8 +174,8 @@ export function AppLayout() {
               </ul>
             </div>
 
-            {/* Mobile bottom profile & Sign out */}
-            <div className="border-t border-white/10 pt-4 mt-auto space-y-3">
+            {/* Mobile bottom profile */}
+            <div className="border-t border-white/10 pt-4 mt-auto">
               <div className="flex items-center gap-3">
                 <div className="flex size-8 items-center justify-center rounded-full bg-white/15 text-xs font-bold text-white">
                   {user?.name?.charAt(0) ?? 'U'}
@@ -194,14 +185,6 @@ export function AppLayout() {
                   <p className="text-[11px] text-white/50">{user?.role}</p>
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-[13px] font-medium text-white/70 hover:bg-red-500/20 hover:text-red-200"
-              >
-                <LogOut className="size-[18px] shrink-0 text-red-200" />
-                <span>Sign out</span>
-              </button>
             </div>
           </aside>
         </div>
@@ -230,15 +213,31 @@ export function AppLayout() {
             </div>
           </div>
 
-          {/* Right section: Profile Widget (Clean & Fully Functional) */}
-          <div className="flex items-center gap-2.5">
-            <div className="flex size-8 items-center justify-center rounded-full bg-[#1e3a5f] text-[11px] font-bold text-white shadow-sm ring-1 ring-black/5">
-              {user?.name?.charAt(0) ?? 'U'}
+          {/* Right section: Profile + Functional Logout Button */}
+          <div className="flex items-center gap-4">
+            {/* User Profile Info */}
+            <div className="flex items-center gap-2.5">
+              <div className="flex size-8 items-center justify-center rounded-full bg-[#1e3a5f] text-[11px] font-bold text-white shadow-sm">
+                {user?.name?.charAt(0) ?? 'U'}
+              </div>
+              <div className="hidden sm:block text-left leading-none">
+                <p className="text-[12px] font-semibold text-slate-800">{user?.name ?? 'User'}</p>
+                <p className="text-[10px] text-slate-400 mt-0.5">{user?.role}</p>
+              </div>
             </div>
-            <div className="text-left leading-none">
-              <p className="text-[12px] font-semibold text-slate-800">{user?.name ?? 'User'}</p>
-              <p className="text-[10px] text-slate-400 mt-0.5">{user?.role}</p>
-            </div>
+
+            {/* Vertical Divider */}
+            <div className="h-5 w-px bg-slate-200" />
+
+            {/* Explicitly Labeled Logout Button (Day Mode Compatible) */}
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-[12px] font-semibold text-slate-700 shadow-sm transition-all hover:bg-red-50 hover:text-red-600 hover:border-red-200 active:scale-[0.98]"
+            >
+              <LogOut className="size-3.5 text-red-500" />
+              <span>Logout</span>
+            </button>
           </div>
         </header>
 
