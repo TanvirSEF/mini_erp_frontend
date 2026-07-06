@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Eye, EyeOff } from 'lucide-react'
+import { toast } from 'sonner'
 import type { CreateUserInput, Role } from '@/types'
 import { useCreateUser } from '@/hooks/use-users'
 import { ApiError } from '@/lib/api-error'
@@ -48,6 +49,7 @@ export function UserFormDialog({ open, onOpenChange }: Props) {
 function UserForm({ onClose }: { onClose: () => void }) {
   const createUser = useCreateUser()
   const [form, setForm] = useState<CreateUserInput>(emptyForm)
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const update = (field: keyof CreateUserInput, value: string) =>
@@ -57,9 +59,15 @@ function UserForm({ onClose }: { onClose: () => void }) {
     event.preventDefault()
     setError(null)
     createUser.mutate(form, {
-      onSuccess: onClose,
-      onError: (err) =>
-        setError(err instanceof ApiError ? err.message : 'Failed to create user.'),
+      onSuccess: () => {
+        toast.success(`User "${form.name}" created successfully!`)
+        onClose()
+      },
+      onError: (err) => {
+        const msg = err instanceof ApiError ? err.message : 'Failed to create user.'
+        setError(msg)
+        toast.error(msg)
+      },
     })
   }
 
@@ -91,14 +99,29 @@ function UserForm({ onClose }: { onClose: () => void }) {
       </div>
       <div className="grid gap-2">
         <Label htmlFor="user-password">Password</Label>
-        <Input
-          id="user-password"
-          type="password"
-          value={form.password}
-          onChange={(event) => update('password', event.target.value)}
-          minLength={6}
-          required
-        />
+        <div className="relative">
+          <Input
+            id="user-password"
+            type={showPassword ? 'text' : 'password'}
+            value={form.password}
+            onChange={(event) => update('password', event.target.value)}
+            className="pr-10"
+            minLength={6}
+            required
+          />
+          <button
+            type="button"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+            onClick={() => setShowPassword((prev) => !prev)}
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
+          >
+            {showPassword ? (
+              <EyeOff className="size-4" />
+            ) : (
+              <Eye className="size-4" />
+            )}
+          </button>
+        </div>
       </div>
       <div className="grid gap-2">
         <Label htmlFor="user-role">Role</Label>
