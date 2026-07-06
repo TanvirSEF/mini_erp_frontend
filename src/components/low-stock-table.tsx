@@ -1,13 +1,4 @@
 import type { Product } from '@/types'
-import { Badge } from '@/components/ui/badge'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
 import { formatCurrency } from '@/lib/format'
 
 type Props = {
@@ -16,35 +7,54 @@ type Props = {
 
 export function LowStockTable({ products }: Props) {
   return (
-    <div className="rounded-xl border">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Product</TableHead>
-            <TableHead>SKU</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead className="text-right">Price</TableHead>
-            <TableHead className="text-right">Stock</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {products.map((product) => (
-            <TableRow key={product._id}>
-              <TableCell className="font-medium">{product.name}</TableCell>
-              <TableCell className="text-muted-foreground">{product.sku}</TableCell>
-              <TableCell className="text-muted-foreground">
-                {product.category}
-              </TableCell>
-              <TableCell className="text-right tabular-nums">
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="border-b border-slate-100">
+            <th className="px-5 py-3 text-left text-[12px] font-semibold uppercase tracking-wider text-slate-400">
+              Product
+            </th>
+            <th className="px-5 py-3 text-left text-[12px] font-semibold uppercase tracking-wider text-slate-400">
+              SKU
+            </th>
+            <th className="px-5 py-3 text-left text-[12px] font-semibold uppercase tracking-wider text-slate-400">
+              Category
+            </th>
+            <th className="px-5 py-3 text-right text-[12px] font-semibold uppercase tracking-wider text-slate-400">
+              Price
+            </th>
+            <th className="px-5 py-3 text-right text-[12px] font-semibold uppercase tracking-wider text-slate-400">
+              Stock
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((product, index) => (
+            <tr
+              key={product._id}
+              className={
+                index !== products.length - 1
+                  ? 'border-b border-slate-50'
+                  : ''
+              }
+            >
+              <td className="px-5 py-3 font-medium text-slate-900">
+                {product.name}
+              </td>
+              <td className="px-5 py-3 text-slate-500">{product.sku}</td>
+              <td className="px-5 py-3 text-slate-500">{product.category}</td>
+              <td className="px-5 py-3 text-right tabular-nums text-slate-900">
                 {formatCurrency(product.sellingPrice)}
-              </TableCell>
-              <TableCell className="text-right">
-                <Badge variant="destructive">{product.stockQuantity} left</Badge>
-              </TableCell>
-            </TableRow>
+              </td>
+              <td className="px-5 py-3 text-right">
+                <span className="inline-flex items-center rounded-full bg-red-50 px-2.5 py-0.5 text-[12px] font-semibold text-red-600">
+                  {product.stockQuantity} left
+                </span>
+              </td>
+            </tr>
           ))}
-        </TableBody>
-      </Table>
+        </tbody>
+      </table>
     </div>
   )
 }
