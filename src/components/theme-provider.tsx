@@ -25,7 +25,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   }, [])
 
   const setTheme = () => {
-    // No-op: force light mode always
+    // Force light mode
   }
 
   const value = React.useMemo(

@@ -47,9 +47,7 @@ export function LoginPage() {
   return (
     <main className="light flex min-h-svh items-center justify-center bg-slate-100 px-5 py-10">
       <div className="grid w-full max-w-[960px] overflow-hidden rounded-3xl bg-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] md:grid-cols-[1.1fr_1fr]">
-        {/* ── Left hero panel ── */}
         <section className="relative hidden min-h-[540px] overflow-hidden bg-gradient-to-br from-[#1e3a5f] to-[#2a5f8f] md:flex md:flex-col md:justify-between md:p-10">
-          {/* Subtle pattern overlay */}
           <div
             className="pointer-events-none absolute inset-0 opacity-[0.04]"
             style={{
@@ -59,7 +57,6 @@ export function LoginPage() {
             }}
           />
 
-          {/* Logo */}
           <div className="relative z-10 flex items-center gap-2.5">
             <div className="flex size-9 items-center justify-center rounded-xl bg-white/15 backdrop-blur-sm">
               <PackageCheck className="size-5 text-white" />
@@ -69,7 +66,6 @@ export function LoginPage() {
             </span>
           </div>
 
-          {/* Hero text */}
           <div className="relative z-10 space-y-3">
             <h2 className="text-[2.5rem] font-extrabold leading-none tracking-tight text-white">
               Welcome
@@ -82,23 +78,19 @@ export function LoginPage() {
             </p>
           </div>
 
-          {/* Decorative elements */}
           <div className="relative z-10 flex items-center gap-3">
             <div className="h-[3px] w-8 rounded-full bg-white/40" />
             <div className="h-[3px] w-3 rounded-full bg-white/20" />
             <div className="h-[3px] w-3 rounded-full bg-white/20" />
           </div>
 
-          {/* Large decorative circle */}
           <div className="absolute -bottom-24 -right-24 size-64 rounded-full border border-white/10" />
           <div className="absolute -bottom-16 -right-16 size-48 rounded-full border border-white/[0.06]" />
           <div className="absolute -top-20 -left-20 size-56 rounded-full bg-white/[0.04]" />
         </section>
 
-        {/* ── Right form panel ── */}
         <section className="flex min-h-[540px] items-center justify-center bg-white px-7 py-10 sm:px-12">
           <div className="w-full max-w-[340px]">
-            {/* Mobile logo */}
             <div className="mb-6 flex items-center gap-2 md:hidden">
               <div className="flex size-8 items-center justify-center rounded-lg bg-[#1e3a5f]">
                 <PackageCheck className="size-4 text-white" />
@@ -108,7 +100,6 @@ export function LoginPage() {
               </span>
             </div>
 
-            {/* Heading */}
             <div className="mb-7">
               <h1 className="text-2xl font-bold tracking-tight text-slate-900">
                 Sign in to your account
@@ -133,7 +124,6 @@ export function LoginPage() {
                 </p>
               )}
 
-              {/* Email field */}
               <div className="space-y-1.5">
                 <label
                   htmlFor="email"
@@ -156,7 +146,6 @@ export function LoginPage() {
                 </div>
               </div>
 
-              {/* Password field */}
               <div className="space-y-1.5">
                 <label
                   htmlFor="password"
@@ -193,7 +182,6 @@ export function LoginPage() {
                 </div>
               </div>
 
-              {/* Submit */}
               <button
                 type="submit"
                 disabled={mutation.isPending}

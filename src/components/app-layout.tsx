@@ -37,16 +37,13 @@ export function AppLayout() {
       : []),
   ]
 
-  // Get current page name for breadcrumb
   const currentPath = location.pathname.substring(1)
   const currentPageLabel =
     currentPath.charAt(0).toUpperCase() + currentPath.slice(1)
 
   return (
     <div className="light flex min-h-svh bg-slate-50 text-slate-900">
-      {/* ── Left Sidebar (Desktop) ── */}
       <aside className="relative hidden w-60 shrink-0 overflow-hidden bg-gradient-to-br from-[#1e3a5f] to-[#2a5f8f] text-white md:flex md:flex-col md:justify-between shadow-[4px_0_24px_rgba(0,0,0,0.03)] border-r border-slate-200/10">
-        {/* Subtle pattern overlay */}
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.03]"
           style={{
@@ -56,12 +53,10 @@ export function AppLayout() {
           }}
         />
 
-        {/* Decorative circle shapes matching login page */}
         <div className="absolute -bottom-24 -left-24 size-48 rounded-full border border-white/5 pointer-events-none" />
         <div className="absolute -top-16 -right-16 size-40 rounded-full bg-white/[0.03] pointer-events-none" />
 
         <div>
-          {/* Top Branding Section */}
           <div className="relative z-10 p-6">
             <div className="flex items-center gap-3">
               <div className="flex size-9 items-center justify-center rounded-xl bg-white/15 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
@@ -78,7 +73,6 @@ export function AppLayout() {
             </div>
           </div>
 
-          {/* Main Navigation Links (Clean & Human-designed, no AI boilerplate boxes) */}
           <div className="relative z-10 px-4 py-3">
             <ul className="space-y-1">
               {items.map((item) => {
@@ -87,13 +81,13 @@ export function AppLayout() {
                   <li key={item.to}>
                     <NavLink
                       to={item.to}
-                    className={({ isActive }) =>
-                      cn(
-                        'flex items-center gap-3 rounded-xl px-4 py-3 text-[13px] font-medium text-white/70 transition-all hover:bg-white/10 hover:text-white',
-                        isActive &&
-                          'bg-white/15 text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] font-semibold'
-                      )
-                    }
+                      className={({ isActive }) =>
+                        cn(
+                          'flex items-center gap-3 rounded-xl px-4 py-3 text-[13px] font-medium text-white/70 transition-all hover:bg-white/10 hover:text-white',
+                          isActive &&
+                            'bg-white/15 text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] font-semibold'
+                        )
+                      }
                     >
                       <Icon className="size-[18px] shrink-0" />
                       <span>{item.label}</span>
@@ -104,15 +98,11 @@ export function AppLayout() {
             </ul>
           </div>
         </div>
-
-
       </aside>
 
-      {/* ── Mobile Drawer (Slide-out menu) ── */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 flex md:hidden bg-slate-900/40 backdrop-blur-xs">
           <aside className="relative w-64 flex-col justify-between bg-gradient-to-br from-[#1e3a5f] to-[#2a5f8f] p-5 text-white flex shadow-2xl animate-in slide-in-from-left duration-200">
-            {/* Close button */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
@@ -122,7 +112,6 @@ export function AppLayout() {
             </button>
 
             <div>
-              {/* Mobile Branding */}
               <div className="flex items-center gap-3 mb-8 mt-2">
                 <div className="flex size-9 items-center justify-center rounded-xl bg-white/15">
                   <PackageCheck className="size-5 text-white" />
@@ -133,7 +122,6 @@ export function AppLayout() {
                 </div>
               </div>
 
-              {/* Mobile Nav Links */}
               <ul className="space-y-1">
                 {items.map((item) => {
                   const Icon = item.icon
@@ -158,17 +146,12 @@ export function AppLayout() {
                 })}
               </ul>
             </div>
-
-
           </aside>
         </div>
       )}
 
-      {/* ── Main Content Area ── */}
       <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Right Header Panel */}
         <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-slate-200 bg-white px-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
-          {/* Left section: Breadcrumb & Menu toggles */}
           <div className="flex items-center gap-4">
             <button
               type="button"
@@ -179,7 +162,6 @@ export function AppLayout() {
               <Menu className="size-4.5" />
             </button>
 
-            {/* Breadcrumb path */}
             <div className="flex items-center gap-1.5 text-[13px] font-medium text-slate-500">
               <span className="text-slate-400">Home</span>
               <span className="text-slate-300">/</span>
@@ -187,9 +169,7 @@ export function AppLayout() {
             </div>
           </div>
 
-          {/* Right section: Profile + Functional Logout Button */}
           <div className="flex items-center gap-4">
-            {/* User Profile Info */}
             <div className="flex items-center gap-2.5">
               <div className="flex size-8 items-center justify-center rounded-full bg-[#1e3a5f] text-[11px] font-bold text-white shadow-sm">
                 {user?.name?.charAt(0) ?? 'U'}
@@ -200,10 +180,8 @@ export function AppLayout() {
               </div>
             </div>
 
-            {/* Vertical Divider */}
             <div className="h-5 w-px bg-slate-200" />
 
-            {/* Explicitly Labeled Logout Button (Day Mode Compatible) */}
             <button
               type="button"
               onClick={handleLogout}
@@ -215,7 +193,6 @@ export function AppLayout() {
           </div>
         </header>
 
-        {/* Workspace panel */}
         <main className="flex-1 overflow-y-auto p-6 md:p-8">
           <Outlet />
         </main>
