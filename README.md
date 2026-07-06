@@ -1,4 +1,4 @@
-# Mini ERP — Frontend
+# Mini ERP Frontend
 
 The web app for the Mini ERP inventory and sales system, built with React and TypeScript. It covers login, a dashboard with live updates, product management with image upload, sales, and an admin section for users and roles. It talks to the [Mini ERP backend](https://github.com/TanvirSEF/mini_erp_backend).
 
@@ -19,7 +19,7 @@ Needs Node.js 18+ and pnpm. The backend should be running, local or deployed.
 git clone https://github.com/TanvirSEF/mini_erp_frontend.git
 cd mini_erp_frontend
 pnpm install
-cp .env.example .env   # set VITE_API_URL to your backend
+cp .env.example .env 
 pnpm dev
 ```
 
