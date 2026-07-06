@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { Trash2 } from 'lucide-react'
+import { Plus, Trash2 } from 'lucide-react'
 import type { Role, User } from '@/types'
 import { useAuth } from '@/context/auth-context'
 import { useDeleteUser, useUpdateUserRole, useUsers } from '@/hooks/use-users'
+import { UserFormDialog } from '@/components/users/user-form-dialog'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -31,14 +32,21 @@ export function UsersPage() {
   const updateRole = useUpdateUserRole()
   const deleteMutation = useDeleteUser()
   const [deleting, setDeleting] = useState<User | null>(null)
+  const [formOpen, setFormOpen] = useState(false)
 
   return (
     <div className="space-y-6">
-      <div className="space-y-1">
-        <h1 className="text-xl font-medium">Users</h1>
-        <p className="text-sm text-muted-foreground">
-          Manage user accounts and their roles.
-        </p>
+      <div className="flex items-center justify-between gap-4">
+        <div className="space-y-1">
+          <h1 className="text-xl font-medium">Users</h1>
+          <p className="text-sm text-muted-foreground">
+            Manage user accounts and their roles.
+          </p>
+        </div>
+        <Button onClick={() => setFormOpen(true)}>
+          <Plus className="size-4" />
+          Add user
+        </Button>
       </div>
 
       {isError ? (
@@ -150,6 +158,8 @@ export function UsersPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <UserFormDialog open={formOpen} onOpenChange={setFormOpen} />
     </div>
   )
 }

@@ -37,11 +37,11 @@ export interface LoginInput {
   password: string
 }
 
-export interface RegisterInput {
+export interface CreateUserInput {
   name: string
   email: string
   password: string
-  role?: Role
+  role: Role
 }
 
 export interface LoginResponse {
