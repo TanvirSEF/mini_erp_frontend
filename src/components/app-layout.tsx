@@ -105,22 +105,7 @@ export function AppLayout() {
           </div>
         </div>
 
-        {/* Bottom User Info */}
-        <div className="relative z-10 border-t border-white/10 p-5 bg-black/[0.08] backdrop-blur-md">
-          <div className="flex items-center gap-3">
-            <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-white/15 text-xs font-bold uppercase text-white ring-1 ring-white/10">
-              {user?.name?.charAt(0) ?? user?.email?.charAt(0) ?? 'U'}
-            </div>
-            <div className="overflow-hidden">
-              <p className="truncate text-[13px] font-semibold leading-none text-white">
-                {user?.name ?? 'User'}
-              </p>
-              <p className="mt-1.5 truncate text-[11px] text-white/50 leading-none">
-                {user?.role}
-              </p>
-            </div>
-          </div>
-        </div>
+
       </aside>
 
       {/* ── Mobile Drawer (Slide-out menu) ── */}
@@ -174,18 +159,7 @@ export function AppLayout() {
               </ul>
             </div>
 
-            {/* Mobile bottom profile */}
-            <div className="border-t border-white/10 pt-4 mt-auto">
-              <div className="flex items-center gap-3">
-                <div className="flex size-8 items-center justify-center rounded-full bg-white/15 text-xs font-bold text-white">
-                  {user?.name?.charAt(0) ?? 'U'}
-                </div>
-                <div>
-                  <p className="text-[13px] font-semibold text-white truncate max-w-[120px]">{user?.name}</p>
-                  <p className="text-[11px] text-white/50">{user?.role}</p>
-                </div>
-              </div>
-            </div>
+
           </aside>
         </div>
       )}
