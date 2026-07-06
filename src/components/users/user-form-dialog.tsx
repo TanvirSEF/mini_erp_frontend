@@ -6,6 +6,13 @@ import { useCreateUser } from '@/hooks/use-users'
 import { ApiError } from '@/lib/api-error'
 import { Button } from '@/components/ui/button'
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -125,18 +132,21 @@ function UserForm({ onClose }: { onClose: () => void }) {
       </div>
       <div className="grid gap-2">
         <Label htmlFor="user-role">Role</Label>
-        <select
-          id="user-role"
+        <Select
           value={form.role}
-          onChange={(event) => update('role', event.target.value)}
-          className="h-8 rounded-lg border border-input bg-transparent px-2 pr-7 text-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+          onValueChange={(val) => update('role', val || 'Employee')}
         >
-          {ROLES.map((role) => (
-            <option key={role} value={role}>
-              {role}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger id="user-role" className="w-full h-8">
+            <SelectValue placeholder="Select a role..." />
+          </SelectTrigger>
+          <SelectContent>
+            {ROLES.map((role) => (
+              <SelectItem key={role} value={role}>
+                {role}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       <DialogFooter>
         <Button

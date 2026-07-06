@@ -1,6 +1,13 @@
 import { Plus, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 type Props = {
   search: string
@@ -38,17 +45,21 @@ export function ProductsToolbar({
           className="pl-8"
         />
       </div>
-      <select
+      <Select
         value={sort}
-        onChange={(event) => onSortChange(event.target.value)}
-        className="h-8 rounded-lg border border-input bg-transparent px-2 pr-7 text-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+        onValueChange={(val) => onSortChange(val || '')}
       >
-        {sortOptions.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+        <SelectTrigger className="h-8 min-w-[150px]">
+          <SelectValue placeholder="Sort by..." />
+        </SelectTrigger>
+        <SelectContent>
+          {sortOptions.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
       {canManage && (
         <Button onClick={onAdd}>
           <Plus className="size-4" />

@@ -7,6 +7,13 @@ import { UserFormDialog } from '@/components/users/user-form-dialog'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
   Table,
   TableBody,
   TableCell,
@@ -90,23 +97,27 @@ export function UsersPage() {
                       {user.email}
                     </TableCell>
                     <TableCell>
-                      <select
+                      <Select
                         value={user.role}
                         disabled={isSelf || updateRole.isPending}
-                        onChange={(event) =>
+                        onValueChange={(val) =>
                           updateRole.mutate({
                             id: user._id,
-                            role: event.target.value as Role,
+                            role: val as Role,
                           })
                         }
-                        className="h-8 rounded-lg border border-input bg-transparent px-2 pr-7 text-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50"
                       >
-                        {ROLES.map((role) => (
-                          <option key={role} value={role}>
-                            {role}
-                          </option>
-                        ))}
-                      </select>
+                        <SelectTrigger className="h-8 w-28">
+                          <SelectValue placeholder="Role..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {ROLES.map((role) => (
+                            <SelectItem key={role} value={role}>
+                              {role}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </TableCell>
                     <TableCell className="text-right">
                       <Button
