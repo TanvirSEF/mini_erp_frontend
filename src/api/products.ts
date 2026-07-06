@@ -7,10 +7,14 @@ export const getProducts = (query: ProductQuery) =>
 export const getProduct = (id: string) => http.get<Product>(`/products/${id}`)
 
 export const createProduct = (payload: FormData) =>
-  http.post<Product>('/products', payload)
+  http.post<Product>('/products', payload, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
 
 export const updateProduct = (id: string, payload: FormData) =>
-  http.patch<Product>(`/products/${id}`, payload)
+  http.patch<Product>(`/products/${id}`, payload, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
 
 export const deleteProduct = (id: string) =>
   http.del<Product>(`/products/${id}`)
