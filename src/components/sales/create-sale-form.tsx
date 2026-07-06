@@ -13,14 +13,15 @@ import { formatCurrency } from '@/lib/format'
 type LineItem = { product: Product; quantity: number }
 
 export function CreateSaleForm() {
-  const { data: products } = useProducts({ limit: 100 })
+  const { data } = useProducts({ limit: 100 })
   const createSale = useCreateSale()
 
   const [lineItems, setLineItems] = useState<LineItem[]>([])
   const [selectedId, setSelectedId] = useState('')
   const [error, setError] = useState<string | null>(null)
 
-  const inStockProducts = (products ?? []).filter((p) => p.stockQuantity > 0)
+  const products = data?.result ?? []
+  const inStockProducts = products.filter((p) => p.stockQuantity > 0)
   const available = inStockProducts.filter(
     (p) => !lineItems.some((li) => li.product._id === p._id)
   )

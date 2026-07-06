@@ -1,8 +1,8 @@
-import type { Product, ProductQuery } from '@/types'
+import type { Paginated, Product, ProductQuery } from '@/types'
 import { http } from '@/lib/http'
 
 export const getProducts = (query: ProductQuery) =>
-  http.get<Product[]>('/products', { params: query })
+  http.get<Paginated<Product>>('/products', { params: query })
 
 export const getProduct = (id: string) => http.get<Product>(`/products/${id}`)
 

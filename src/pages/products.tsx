@@ -35,8 +35,8 @@ export function ProductsPage() {
   const query: ProductQuery = { searchTerm, sort, page, limit: PAGE_SIZE }
   const { data, isLoading, isError, refetch } = useProducts(query)
 
-  const products = data ?? []
-  const hasMore = products.length === PAGE_SIZE
+  const products = data?.result ?? []
+  const totalPage = data?.meta.totalPage ?? 1
 
   const openCreate = () => {
     setEditing(null)
@@ -97,7 +97,9 @@ export function ProductsPage() {
 
       {!isLoading && !isError && products.length > 0 && (
         <div className="flex items-center justify-between">
-          <span className="text-sm text-muted-foreground">Page {page}</span>
+          <span className="text-sm text-muted-foreground">
+            Page {page} of {totalPage}
+          </span>
           <div className="flex gap-2">
             <Button
               variant="outline"
@@ -110,7 +112,7 @@ export function ProductsPage() {
             <Button
               variant="outline"
               size="sm"
-              disabled={!hasMore}
+              disabled={page >= totalPage}
               onClick={() => setPage((prev) => prev + 1)}
             >
               Next
