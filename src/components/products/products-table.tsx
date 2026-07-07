@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { Pencil, Trash2 } from 'lucide-react'
 import type { Product } from '@/types'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import {
   Table,
   TableBody,
@@ -20,6 +22,8 @@ type Props = {
 }
 
 export function ProductsTable({ products, canManage, onEdit, onDelete }: Props) {
+  const [preview, setPreview] = useState<Product | null>(null)
+
   return (
     <div className="rounded-xl border">
       <Table className="table-fixed">
@@ -41,11 +45,18 @@ export function ProductsTable({ products, canManage, onEdit, onDelete }: Props) 
             <TableRow key={product._id}>
               <TableCell>
                 <div className="flex items-center gap-3">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="size-10 shrink-0 rounded-md object-cover ring-1 ring-foreground/10"
-                  />
+                  <button
+                    type="button"
+                    onClick={() => setPreview(product)}
+                    className="size-10 shrink-0 cursor-zoom-in overflow-hidden rounded-md ring-1 ring-foreground/10 transition hover:opacity-80"
+                    aria-label={`Preview ${product.name} image`}
+                  >
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="size-full object-cover"
+                    />
+                  </button>
                   <span className="min-w-0 truncate font-medium">
                     {product.name}
                   </span>
@@ -100,6 +111,26 @@ export function ProductsTable({ products, canManage, onEdit, onDelete }: Props) 
           ))}
         </TableBody>
       </Table>
+
+      <Dialog
+        open={preview !== null}
+        onOpenChange={(open) => {
+          if (!open) setPreview(null)
+        }}
+      >
+        <DialogContent className="p-2 sm:max-w-3xl">
+          {preview && (
+            <>
+              <DialogTitle className="sr-only">{preview.name}</DialogTitle>
+              <img
+                src={preview.image}
+                alt={preview.name}
+                className="mx-auto max-h-[80vh] w-auto rounded-lg object-contain"
+              />
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
