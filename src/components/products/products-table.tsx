@@ -28,7 +28,8 @@ export function ProductsTable({ products, canManage, onEdit, onDelete }: Props) 
             <TableHead>Product</TableHead>
             <TableHead>SKU</TableHead>
             <TableHead>Category</TableHead>
-            <TableHead className="text-right">Price</TableHead>
+            <TableHead className="text-right">Purchase Price</TableHead>
+            <TableHead className="text-right">Selling Price</TableHead>
             <TableHead className="text-right">Stock</TableHead>
             {canManage && <TableHead className="text-right">Actions</TableHead>}
           </TableRow>
@@ -49,6 +50,9 @@ export function ProductsTable({ products, canManage, onEdit, onDelete }: Props) 
               <TableCell className="text-muted-foreground">{product.sku}</TableCell>
               <TableCell className="text-muted-foreground">
                 {product.category}
+              </TableCell>
+              <TableCell className="text-right tabular-nums">
+                {formatCurrency(product.purchasePrice)}
               </TableCell>
               <TableCell className="text-right tabular-nums">
                 {formatCurrency(product.sellingPrice)}
