@@ -1,9 +1,10 @@
 import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppLayout } from '@/components/app-layout'
-import { ProtectedRoute } from '@/routes/protected-route'
+import { ProtectedRoute, RequirePermission } from '@/routes/protected-route'
 import { PublicOnlyRoute } from '@/routes/public-only-route'
-import { PERMISSIONS } from '@/lib/permissions'
+import { useAuth } from '@/context/auth-context'
+import { firstAccessiblePath } from '@/lib/navigation'
 
 const LoginPage = lazy(() =>
   import('@/pages/login').then((m) => ({ default: m.LoginPage }))
@@ -35,6 +36,23 @@ function PageLoader() {
   )
 }
 
+function HomeRedirect() {
+  const { hasPermission } = useAuth()
+  const path = firstAccessiblePath(hasPermission)
+
+  if (!path) {
+    return (
+      <div className="flex min-h-svh items-center justify-center p-6">
+        <p className="text-sm text-muted-foreground">
+          You don&apos;t have access to any pages. Please contact an administrator.
+        </p>
+      </div>
+    )
+  }
+
+  return <Navigate to={path} replace />
+}
+
 export function AppRoutes() {
   return (
     <Suspense fallback={<PageLoader />}>
@@ -45,21 +63,47 @@ export function AppRoutes() {
 
         <Route element={<ProtectedRoute />}>
           <Route element={<AppLayout />}>
-            <Route index element={<Navigate to="/dashboard" replace />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/sales" element={<SalesPage />} />
-
+            <Route index element={<HomeRedirect />} />
             <Route
+              path="/dashboard"
               element={
-                <ProtectedRoute
-                  permissions={[PERMISSIONS.USER_MANAGE, PERMISSIONS.ROLE_MANAGE]}
-                />
+                <RequirePermission path="/dashboard">
+                  <DashboardPage />
+                </RequirePermission>
               }
-            >
-              <Route path="/users" element={<UsersPage />} />
-              <Route path="/roles" element={<RolesPage />} />
-            </Route>
+            />
+            <Route
+              path="/products"
+              element={
+                <RequirePermission path="/products">
+                  <ProductsPage />
+                </RequirePermission>
+              }
+            />
+            <Route
+              path="/sales"
+              element={
+                <RequirePermission path="/sales">
+                  <SalesPage />
+                </RequirePermission>
+              }
+            />
+            <Route
+              path="/users"
+              element={
+                <RequirePermission path="/users">
+                  <UsersPage />
+                </RequirePermission>
+              }
+            />
+            <Route
+              path="/roles"
+              element={
+                <RequirePermission path="/roles">
+                  <RolesPage />
+                </RequirePermission>
+              }
+            />
           </Route>
         </Route>
 

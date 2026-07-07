@@ -25,7 +25,7 @@ export function LoginPage() {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
-  const from = (location.state as LocationState | null)?.from ?? '/dashboard'
+  const from = (location.state as LocationState | null)?.from ?? '/'
 
   const mutation = useMutation({
     mutationFn: login,

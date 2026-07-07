@@ -1,18 +1,8 @@
 import { useState } from 'react'
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom'
-import {
-  PackageCheck,
-  LogOut,
-  LayoutDashboard,
-  Boxes,
-  ShoppingCart,
-  Users,
-  ShieldCheck,
-  Menu,
-  X,
-} from 'lucide-react'
+import { LogOut, Menu, PackageCheck, X } from 'lucide-react'
 import { useAuth } from '@/context/auth-context'
-import { PERMISSIONS } from '@/lib/permissions'
+import { NAV_ITEMS } from '@/lib/navigation'
 import { cn } from '@/lib/utils'
 
 export function AppLayout() {
@@ -26,17 +16,7 @@ export function AppLayout() {
     navigate('/login', { replace: true })
   }
 
-  const items = [
-    { label: 'Dashboard', to: '/dashboard', icon: LayoutDashboard },
-    { label: 'Products', to: '/products', icon: Boxes },
-    { label: 'Sales', to: '/sales', icon: ShoppingCart },
-    ...(hasPermission(PERMISSIONS.USER_MANAGE)
-      ? [{ label: 'Users', to: '/users', icon: Users }]
-      : []),
-    ...(hasPermission(PERMISSIONS.ROLE_MANAGE)
-      ? [{ label: 'Roles', to: '/roles', icon: ShieldCheck }]
-      : []),
-  ]
+  const items = NAV_ITEMS.filter((item) => item.permissions.some(hasPermission))
 
   const currentPath = location.pathname.substring(1)
   const currentPageLabel =
@@ -79,9 +59,9 @@ export function AppLayout() {
               {items.map((item) => {
                 const Icon = item.icon
                 return (
-                  <li key={item.to}>
+                  <li key={item.path}>
                     <NavLink
-                      to={item.to}
+                      to={item.path}
                       className={({ isActive }) =>
                         cn(
                           'flex items-center gap-3 rounded-xl px-4 py-3 text-[13px] font-medium text-white/70 transition-all hover:bg-white/10 hover:text-white',
@@ -127,9 +107,9 @@ export function AppLayout() {
                 {items.map((item) => {
                   const Icon = item.icon
                   return (
-                    <li key={item.to}>
+                    <li key={item.path}>
                       <NavLink
-                        to={item.to}
+                        to={item.path}
                         onClick={() => setMobileMenuOpen(false)}
                         className={({ isActive }) =>
                           cn(
