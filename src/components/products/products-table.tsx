@@ -22,16 +22,18 @@ type Props = {
 export function ProductsTable({ products, canManage, onEdit, onDelete }: Props) {
   return (
     <div className="rounded-xl border">
-      <Table>
+      <Table className="table-fixed">
         <TableHeader>
           <TableRow>
             <TableHead>Product</TableHead>
-            <TableHead>SKU</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead className="text-right">Purchase Price</TableHead>
-            <TableHead className="text-right">Selling Price</TableHead>
-            <TableHead className="text-right">Stock</TableHead>
-            {canManage && <TableHead className="text-right">Actions</TableHead>}
+            <TableHead className="w-[11%]">SKU</TableHead>
+            <TableHead className="w-[13%]">Category</TableHead>
+            <TableHead className="w-[14%] text-right">Purchase Price</TableHead>
+            <TableHead className="w-[14%] text-right">Selling Price</TableHead>
+            <TableHead className="w-[9%] text-right">Stock</TableHead>
+            {canManage && (
+              <TableHead className="w-[7%] text-right">Actions</TableHead>
+            )}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -42,14 +44,18 @@ export function ProductsTable({ products, canManage, onEdit, onDelete }: Props) 
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="size-10 rounded-md object-cover ring-1 ring-foreground/10"
+                    className="size-10 shrink-0 rounded-md object-cover ring-1 ring-foreground/10"
                   />
-                  <span className="font-medium">{product.name}</span>
+                  <span className="min-w-0 truncate font-medium">
+                    {product.name}
+                  </span>
                 </div>
               </TableCell>
-              <TableCell className="text-muted-foreground">{product.sku}</TableCell>
               <TableCell className="text-muted-foreground">
-                {product.category}
+                <span className="block truncate">{product.sku}</span>
+              </TableCell>
+              <TableCell className="text-muted-foreground">
+                <span className="block truncate">{product.category}</span>
               </TableCell>
               <TableCell className="text-right tabular-nums">
                 {formatCurrency(product.purchasePrice)}
