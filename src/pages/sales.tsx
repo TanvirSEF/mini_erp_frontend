@@ -1,4 +1,5 @@
 import { useAuth } from '@/context/auth-context'
+import { PERMISSIONS } from '@/lib/permissions'
 import { useSales } from '@/hooks/use-sales'
 import { CreateSaleForm } from '@/components/sales/create-sale-form'
 import { SaleHistoryTable } from '@/components/sales/sale-history-table'
@@ -6,8 +7,8 @@ import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export function SalesPage() {
-  const { user } = useAuth()
-  const canViewHistory = user?.role === 'Admin' || user?.role === 'Manager'
+  const { hasPermission } = useAuth()
+  const canViewHistory = hasPermission(PERMISSIONS.SALE_READ)
   const { data, isLoading, isError, refetch } = useSales(canViewHistory)
 
   return (

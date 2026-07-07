@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppLayout } from '@/components/app-layout'
 import { ProtectedRoute } from '@/routes/protected-route'
 import { PublicOnlyRoute } from '@/routes/public-only-route'
+import { PERMISSIONS } from '@/lib/permissions'
 
 const LoginPage = lazy(() =>
   import('@/pages/login').then((m) => ({ default: m.LoginPage }))
@@ -49,7 +50,13 @@ export function AppRoutes() {
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/sales" element={<SalesPage />} />
 
-            <Route element={<ProtectedRoute roles={['Admin']} />}>
+            <Route
+              element={
+                <ProtectedRoute
+                  permissions={[PERMISSIONS.USER_MANAGE, PERMISSIONS.ROLE_MANAGE]}
+                />
+              }
+            >
               <Route path="/users" element={<UsersPage />} />
               <Route path="/roles" element={<RolesPage />} />
             </Route>

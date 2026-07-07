@@ -1,3 +1,5 @@
+export const WILDCARD_PERMISSION = '*'
+
 export const PERMISSIONS = {
   PRODUCT_READ: 'product:read',
   PRODUCT_CREATE: 'product:create',

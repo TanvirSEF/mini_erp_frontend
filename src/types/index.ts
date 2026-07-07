@@ -30,6 +30,7 @@ export interface AuthUser {
   name: string
   email: string
   role: Role
+  permissions: string[]
 }
 
 export interface LoginInput {

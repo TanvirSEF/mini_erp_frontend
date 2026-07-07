@@ -14,7 +14,7 @@ type Props = {
   onSearchChange: (value: string) => void
   sort: string
   onSortChange: (value: string) => void
-  canManage: boolean
+  canCreate: boolean
   onAdd: () => void
 }
 
@@ -31,7 +31,7 @@ export function ProductsToolbar({
   onSearchChange,
   sort,
   onSortChange,
-  canManage,
+  canCreate,
   onAdd,
 }: Props) {
   const selectedOption = sortOptions.find((o) => o.value === sort)
@@ -65,7 +65,7 @@ export function ProductsToolbar({
             ))}
           </SelectContent>
         </Select>
-        {canManage && (
+        {canCreate && (
           <Button onClick={onAdd} className="h-8">
             <Plus className="size-4" />
             Add product

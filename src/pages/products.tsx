@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { Product, ProductQuery } from '@/types'
 import { useAuth } from '@/context/auth-context'
+import { PERMISSIONS } from '@/lib/permissions'
 import { useProducts } from '@/hooks/use-products'
 import { ProductsToolbar } from '@/components/products/products-toolbar'
 import { ProductsTable } from '@/components/products/products-table'
@@ -12,8 +13,10 @@ import { Skeleton } from '@/components/ui/skeleton'
 const PAGE_SIZE = 10
 
 export function ProductsPage() {
-  const { user } = useAuth()
-  const canManage = user?.role === 'Admin' || user?.role === 'Manager'
+  const { hasPermission } = useAuth()
+  const canCreate = hasPermission(PERMISSIONS.PRODUCT_CREATE)
+  const canUpdate = hasPermission(PERMISSIONS.PRODUCT_UPDATE)
+  const canDelete = hasPermission(PERMISSIONS.PRODUCT_DELETE)
 
   const [searchInput, setSearchInput] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
@@ -63,7 +66,7 @@ export function ProductsPage() {
           setSort(value)
           setPage(1)
         }}
-        canManage={canManage}
+        canCreate={canCreate}
         onAdd={openCreate}
       />
 
@@ -89,7 +92,8 @@ export function ProductsPage() {
       ) : (
         <ProductsTable
           products={products}
-          canManage={canManage}
+          canUpdate={canUpdate}
+          canDelete={canDelete}
           onEdit={openEdit}
           onDelete={(product) => setDeleting(product)}
         />

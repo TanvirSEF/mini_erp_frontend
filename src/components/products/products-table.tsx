@@ -16,12 +16,13 @@ import { formatCurrency, formatNumber } from '@/lib/format'
 
 type Props = {
   products: Product[]
-  canManage: boolean
+  canUpdate: boolean
+  canDelete: boolean
   onEdit: (product: Product) => void
   onDelete: (product: Product) => void
 }
 
-export function ProductsTable({ products, canManage, onEdit, onDelete }: Props) {
+export function ProductsTable({ products, canUpdate, canDelete, onEdit, onDelete }: Props) {
   const [preview, setPreview] = useState<Product | null>(null)
 
   return (
@@ -35,7 +36,7 @@ export function ProductsTable({ products, canManage, onEdit, onDelete }: Props) 
             <TableHead className="w-[14%] text-right">Purchase Price</TableHead>
             <TableHead className="w-[14%] text-right">Selling Price</TableHead>
             <TableHead className="w-[9%] text-right">Stock</TableHead>
-            {canManage && (
+            {(canUpdate || canDelete) && (
               <TableHead className="w-[7%] text-right">Actions</TableHead>
             )}
           </TableRow>
@@ -85,25 +86,29 @@ export function ProductsTable({ products, canManage, onEdit, onDelete }: Props) 
                   </span>
                 )}
               </TableCell>
-              {canManage && (
+              {(canUpdate || canDelete) && (
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-1">
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      onClick={() => onEdit(product)}
-                    >
-                      <Pencil className="size-4" />
-                      <span className="sr-only">Edit</span>
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      onClick={() => onDelete(product)}
-                    >
-                      <Trash2 className="size-4" />
-                      <span className="sr-only">Delete</span>
-                    </Button>
+                    {canUpdate && (
+                      <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        onClick={() => onEdit(product)}
+                      >
+                        <Pencil className="size-4" />
+                        <span className="sr-only">Edit</span>
+                      </Button>
+                    )}
+                    {canDelete && (
+                      <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        onClick={() => onDelete(product)}
+                      >
+                        <Trash2 className="size-4" />
+                        <span className="sr-only">Delete</span>
+                      </Button>
+                    )}
                   </div>
                 </TableCell>
               )}

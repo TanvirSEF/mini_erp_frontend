@@ -12,10 +12,11 @@ import {
   X,
 } from 'lucide-react'
 import { useAuth } from '@/context/auth-context'
+import { PERMISSIONS } from '@/lib/permissions'
 import { cn } from '@/lib/utils'
 
 export function AppLayout() {
-  const { user, logout } = useAuth()
+  const { user, logout, hasPermission } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -29,11 +30,11 @@ export function AppLayout() {
     { label: 'Dashboard', to: '/dashboard', icon: LayoutDashboard },
     { label: 'Products', to: '/products', icon: Boxes },
     { label: 'Sales', to: '/sales', icon: ShoppingCart },
-    ...(user?.role === 'Admin'
-      ? [
-          { label: 'Users', to: '/users', icon: Users },
-          { label: 'Roles', to: '/roles', icon: ShieldCheck },
-        ]
+    ...(hasPermission(PERMISSIONS.USER_MANAGE)
+      ? [{ label: 'Users', to: '/users', icon: Users }]
+      : []),
+    ...(hasPermission(PERMISSIONS.ROLE_MANAGE)
+      ? [{ label: 'Roles', to: '/roles', icon: ShieldCheck }]
       : []),
   ]
 
